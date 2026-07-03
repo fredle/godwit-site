@@ -124,6 +124,14 @@
   .card p { font-size: 15px; color: var(--muted); margin: 0; }
   .card .role { margin-top: auto; padding-top: 12px; font-family: "IBM Plex Mono", monospace; font-size: 11.5px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); border-top: 1px solid var(--line); }
 
+  /* Systems */
+  .systems { padding-top: 0; }
+  .systems .groups { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 26px 20px; margin-top: 36px; }
+  .systems .group h3 { font-size: 13px; font-family: "IBM Plex Mono", monospace; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 14px; }
+  .systems .tiles { display: flex; flex-wrap: wrap; gap: 8px; }
+  .systems .tile { font-family: "IBM Plex Mono", monospace; font-size: 13px; padding: 8px 12px; border: 1px solid var(--line); border-radius: 4px; background: var(--card); white-space: nowrap; }
+  .systems .note { margin-top: 26px; font-size: 13.5px; color: var(--muted); max-width: 70ch; }
+
   /* How */
   .how ul { list-style: none; padding: 0; margin: 32px 0 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 28px 40px; }
   .how li strong { display: block; font-family: "Newsreader", Georgia, serif; font-size: 20px; font-weight: 600; margin-bottom: 6px; }
@@ -284,6 +292,58 @@
         </div>
       </div>
       <p style="margin-top:28px"><a href="examples/" style="font-weight:600; color:var(--accent)">See what an engagement actually looks like — three worked examples →</a></p>
+    </div>
+  </section>
+
+  <section class="systems">
+    <div class="wrap">
+      <span class="eyebrow">Systems we speak</span>
+      <h2>Out of, into, and between.</h2>
+      <p class="muted" style="max-width:60ch">Migration and integration patterns for the systems this
+      market actually runs on — and every engagement adds to the library.</p>
+      <div class="groups">
+        <div class="group">
+          <h3>Wealth &amp; advice</h3>
+          <div class="tiles">
+            <span class="tile">Intelliflo</span>
+            <span class="tile">CURO</span>
+            <span class="tile">Xplan</span>
+            <span class="tile">SS&amp;C back office</span>
+            <span class="tile">Platform &amp; custody feeds</span>
+          </div>
+        </div>
+        <div class="group">
+          <h3>Lending &amp; mutuals</h3>
+          <div class="tiles">
+            <span class="tile">Mambu</span>
+            <span class="tile">nCino</span>
+            <span class="tile">Phoebus-era cores</span>
+            <span class="tile">Legacy core extracts</span>
+          </div>
+        </div>
+        <div class="group">
+          <h3>Insurance &amp; MGA</h3>
+          <div class="tiles">
+            <span class="tile">Acturis</span>
+            <span class="tile">Modern PAS platforms</span>
+            <span class="tile">Bordereaux pipelines</span>
+          </div>
+        </div>
+        <div class="group">
+          <h3>Data platforms &amp; pipes</h3>
+          <div class="tiles">
+            <span class="tile">Snowflake</span>
+            <span class="tile">Microsoft Fabric</span>
+            <span class="tile">Databricks</span>
+            <span class="tile">dbt</span>
+            <span class="tile">REST / file / SFTP</span>
+            <span class="tile">FCA regulatory feeds</span>
+          </div>
+        </div>
+      </div>
+      <p class="note">System names identify the platforms we work with; no vendor
+      partnership or endorsement is implied. Don't see yours? The engine is
+      pattern-based — unfamiliar systems are an assessment finding, not a blocker.</p>
     </div>
   </section>
 
