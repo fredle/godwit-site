@@ -1,0 +1,322 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Godwit Data — fixed-price data migration for financial services</title>
+<meta name="description" content="Fixed-price data migration and integration for UK financial services — delivered in weeks, not quarters, with a reconciliation evidence pack your compliance function can file.">
+<link rel="stylesheet" href="fonts.css">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<style>
+  :root {
+    --ink: #14231F;
+    --mist: #EEF1EC;
+    --slate: #3E5752;
+    --sand: #C7BFAC;
+    --bg: var(--mist);
+    --fg: var(--ink);
+    --muted: #51655F;
+    --line: #D5DBD3;
+    --card: #F6F8F4;
+    --accent: #A64B2A;
+    --accent-contrast: #FBF9F6;
+    --panel-bg: var(--ink);
+    --panel-fg: #E8EDE7;
+    --panel-muted: #9FB0A8;
+    --panel-line: #2A3B34;
+    --panel-accent: #D07A50;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #101B18; --fg: #E8EDE7; --muted: #9FB0A8; --line: #26362F; --card: #16241F; --accent: #D07A50; --accent-contrast: #14231F; --panel-bg: #0B1512; --panel-line: #233029; }
+  }
+  :root[data-theme="dark"] { --bg: #101B18; --fg: #E8EDE7; --muted: #9FB0A8; --line: #26362F; --card: #16241F; --accent: #D07A50; --accent-contrast: #14231F; --panel-bg: #0B1512; --panel-line: #233029; }
+  :root[data-theme="light"] { --bg: #EEF1EC; --fg: #14231F; --muted: #51655F; --line: #D5DBD3; --card: #F6F8F4; --accent: #A64B2A; --accent-contrast: #FBF9F6; --panel-bg: #14231F; --panel-line: #2A3B34; }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0; background: var(--bg); color: var(--fg);
+    font-family: "IBM Plex Sans", system-ui, -apple-system, sans-serif;
+    font-size: 16.5px; line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 1060px; margin: 0 auto; padding: 0 24px; }
+  h1, h2, h3 { font-family: "Newsreader", Georgia, serif; line-height: 1.12; text-wrap: balance; margin: 0; }
+  p { margin: 0 0 1em; max-width: 64ch; }
+  a { color: inherit; }
+  .eyebrow { font-family: "IBM Plex Mono", monospace; font-size: 12.5px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); display: block; margin-bottom: 18px; }
+  .muted { color: var(--muted); }
+  .mono { font-family: "IBM Plex Mono", monospace; font-variant-numeric: tabular-nums; }
+
+  .btn { display: inline-block; padding: 13px 24px; border-radius: 4px; font-weight: 600; font-size: 15.5px; text-decoration: none; border: 1.5px solid transparent; transition: filter .15s ease, background .15s ease; }
+  .btn-primary { background: var(--accent); color: var(--accent-contrast); }
+  .btn-primary:hover { filter: brightness(1.08); }
+  .btn-ghost { border-color: currentColor; }
+  .btn-ghost:hover { background: color-mix(in srgb, currentColor 8%, transparent); }
+  .btn:focus-visible, a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+  /* Header */
+  header { padding: 26px 0; }
+  header .wrap { display: flex; align-items: center; justify-content: space-between; gap: 14px 24px; flex-wrap: wrap; }
+  .lockup { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+  .lockup svg { width: 42px; height: 42px; }
+  .lockup .word { font-family: "Newsreader", Georgia, serif; font-size: 23px; font-weight: 600; white-space: nowrap; }
+  .lockup .word span { font-weight: 500; color: var(--muted); }
+  nav { display: flex; gap: 28px; align-items: center; }
+  nav a { text-decoration: none; font-size: 15px; font-weight: 500; color: var(--muted); }
+  nav a:hover { color: var(--fg); }
+  nav .btn { color: var(--accent-contrast); }
+  @media (max-width: 720px) { nav a:not(.btn) { display: none; } }
+
+  /* Hero */
+  .hero { padding: 72px 0 40px; }
+  .hero h1 { font-size: clamp(44px, 7vw, 76px); font-weight: 600; letter-spacing: -0.01em; max-width: 14ch; }
+  .hero .sub { font-size: 20px; max-width: 52ch; margin: 26px 0 34px; color: var(--muted); }
+  .hero .ctas { display: flex; gap: 14px; flex-wrap: wrap; align-items: center; }
+  .flight { margin: 26px 0 0; width: 100%; height: auto; display: block; color: var(--fg); }
+  .flight .trail { stroke-dasharray: 0.1 9; stroke-dashoffset: 0; }
+  @media (prefers-reduced-motion: no-preference) {
+    .flight .trail { animation: draw 2.4s ease-out both; }
+    .flight .bird { animation: arrive 2.4s ease-out both; }
+    @keyframes draw { from { opacity: 0; } 30% { opacity: 1; } to { opacity: 1; } }
+    @keyframes arrive { from { opacity: 0; transform: translate(-40px, 14px); } 55% { opacity: 0; } to { opacity: 1; transform: none; } }
+  }
+  .record { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 14px 0; margin-top: 8px; }
+  .record .wrap { display: flex; gap: 12px 32px; flex-wrap: wrap; justify-content: space-between; font-family: "IBM Plex Mono", monospace; font-size: 13px; letter-spacing: 0.08em; color: var(--muted); }
+  .record strong { color: var(--fg); font-weight: 500; }
+
+  section { padding: 88px 0; }
+  section h2 { font-size: clamp(30px, 4vw, 42px); font-weight: 600; margin-bottom: 22px; max-width: 24ch; }
+
+  /* Gap */
+  .gap p.lede { font-size: 21px; line-height: 1.55; max-width: 56ch; }
+  .gap p.lede em { font-style: normal; color: var(--accent); font-weight: 500; }
+
+  /* Proof panel */
+  .proof { background: var(--panel-bg); color: var(--panel-fg); }
+  .proof .eyebrow { color: var(--panel-accent); }
+  .proof .muted { color: var(--panel-muted); }
+  .proof-grid { display: grid; grid-template-columns: minmax(0,5fr) minmax(0,4fr); gap: 56px; align-items: center; }
+  @media (max-width: 860px) { .proof-grid { grid-template-columns: 1fr; } }
+  .recon { background: color-mix(in srgb, var(--panel-fg) 4%, transparent); border: 1px solid var(--panel-line); border-radius: 8px; padding: 22px 24px; font-family: "IBM Plex Mono", monospace; font-size: 13.5px; line-height: 2.1; overflow-x: auto; }
+  .recon .hd { color: var(--panel-muted); letter-spacing: 0.1em; font-size: 11.5px; text-transform: uppercase; }
+  .recon .row { display: flex; justify-content: space-between; gap: 24px; white-space: nowrap; }
+  .recon .ok { color: var(--panel-accent); }
+  .recon .total { border-top: 1px solid var(--panel-line); margin-top: 8px; padding-top: 8px; font-weight: 500; }
+
+  /* Services */
+  .services .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; margin-top: 40px; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 26px 24px 24px; display: flex; flex-direction: column; gap: 10px; }
+  .card h3 { font-size: 22px; font-weight: 600; }
+  .card .price { font-family: "IBM Plex Mono", monospace; font-size: 13px; color: var(--accent); font-weight: 500; }
+  .card p { font-size: 15px; color: var(--muted); margin: 0; }
+  .card .role { margin-top: auto; padding-top: 12px; font-family: "IBM Plex Mono", monospace; font-size: 11.5px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); border-top: 1px solid var(--line); }
+
+  /* How */
+  .how ul { list-style: none; padding: 0; margin: 32px 0 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 28px 40px; }
+  .how li strong { display: block; font-family: "Newsreader", Georgia, serif; font-size: 20px; font-weight: 600; margin-bottom: 6px; }
+  .how li { color: var(--muted); font-size: 15.5px; }
+
+  /* Who */
+  .who .segs { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; margin-top: 8px; }
+  .who .seg { border-left: 3px solid var(--accent); padding: 4px 0 4px 18px; }
+  .who .seg strong { display: block; font-size: 16.5px; margin-bottom: 4px; }
+  .who .seg span { color: var(--muted); font-size: 15px; }
+  .who .kicker { margin-top: 36px; font-family: "Newsreader", Georgia, serif; font-size: 24px; font-style: italic; font-weight: 500; }
+
+  /* Contact */
+  .contact { text-align: left; border-top: 1px solid var(--line); }
+  .contact .email { font-family: "IBM Plex Mono", monospace; font-size: 18px; }
+
+  footer { padding: 36px 0 48px; border-top: 1px solid var(--line); font-size: 13.5px; color: var(--muted); }
+  footer .wrap { display: flex; justify-content: space-between; gap: 12px 32px; flex-wrap: wrap; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <a class="lockup" href="#">
+      <svg viewBox="0 0 64 64" fill="none" aria-hidden="true">
+        <circle cx="7" cy="52" r="2.4" fill="currentColor"/>
+        <path d="M12 50.5 Q26 47 40 38.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-dasharray="0.1 6.5" fill="none"/>
+        <path d="M18 39 C26 34 33 30.8 37.5 29.9 L55 24.2 L38 31.5 C32 33.4 25 36.6 18 39 Z" fill="currentColor"/>
+        <path d="M33 31.4 C28 24 21 18.5 13 16.5 C17 23 24 29.5 29 32.6 Z" fill="currentColor"/>
+      </svg>
+      <span class="word">Godwit <span>Data</span></span>
+    </a>
+    <nav>
+      <a href="#services">Services</a>
+      <a href="#proof">The proof</a>
+      <a href="#contact">Contact</a>
+      <a class="btn btn-primary" href="mailto:freddie@godwit.uk?subject=Migration%20Readiness%20Assessment">Book an Assessment</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="hero">
+    <div class="wrap">
+      <span class="eyebrow">Fixed-price data migration for financial services</span>
+      <h1>Your data, moved. Proven.</h1>
+      <p class="sub">Fixed-price data migration and integration for UK financial
+      services — delivered in weeks, not quarters, with a reconciliation evidence
+      pack your compliance function can file.</p>
+      <div class="ctas">
+        <a class="btn btn-primary" href="mailto:freddie@godwit.uk?subject=Migration%20Readiness%20Assessment">Book a Migration Readiness Assessment</a>
+        <a class="btn btn-ghost" href="#services">See the services</a>
+      </div>
+      <svg class="flight" viewBox="0 0 1000 150" fill="none" aria-hidden="true" preserveAspectRatio="xMidYMax meet">
+        <circle cx="14" cy="128" r="5" fill="currentColor"/>
+        <path class="trail" d="M30 126 Q400 118 640 84 T930 53" stroke="currentColor" stroke-width="3" stroke-linecap="round" fill="none"/>
+        <g class="bird">
+          <g transform="translate(832,-6) scale(2.2)">
+            <path d="M18 39 C26 34 33 30.8 37.5 29.9 L55 24.2 L38 31.5 C32 33.4 25 36.6 18 39 Z" fill="currentColor"/>
+            <path d="M33 31.4 C28 24 21 18.5 13 16.5 C17 23 24 29.5 29 32.6 Z" fill="currentColor"/>
+          </g>
+        </g>
+      </svg>
+    </div>
+  </div>
+
+  <div class="record">
+    <div class="wrap">
+      <span><strong>BAR-TAILED GODWIT</strong> · WORLD-RECORD MIGRATION</span>
+      <span>ALASKA → NEW ZEALAND</span>
+      <span>13,000 KM NON-STOP</span>
+      <span><strong>NOTHING LOST EN ROUTE</strong></span>
+    </div>
+  </div>
+
+  <section class="gap">
+    <div class="wrap">
+      <span class="eyebrow">The gap</span>
+      <h2>Enterprise problems. Mid-market budgets.</h2>
+      <p class="lede">Mid-market financial services firms carry enterprise-grade data
+      problems — regulated records, legacy platforms, FCA reporting — on budgets the
+      big integrators won't get out of bed for. Godwit Data closes that gap.
+      AI-accelerated engineering makes the migration a major SI would quote at six
+      figures deliverable <em>in six weeks at a fixed price</em>. Same outcome.
+      No day-rate meter running.</p>
+    </div>
+  </section>
+
+  <section class="proof" id="proof">
+    <div class="wrap proof-grid">
+      <div>
+        <span class="eyebrow">The evidence pack</span>
+        <h2>We don't ask you to trust the migration. We hand you the proof.</h2>
+        <p class="muted">Every migration ships with a reconciliation evidence pack as
+        standard: automated row-level reconciliation of every record, financial totals
+        agreed to the penny, exceptions reported and dispositioned — compiled into a
+        signed pack you can stand behind in front of the board, your auditors,
+        or the FCA.</p>
+        <p class="muted">Exhaustive reconciliation is unaffordable by hand. Generated
+        by our migration engine, it's simply how we finish the job.</p>
+      </div>
+      <div class="recon" role="img" aria-label="Sample reconciliation summary: all record sets reconciled, zero unexplained exceptions">
+        <div class="hd">Reconciliation summary — cutover 04:00</div>
+        <div class="row"><span>client_accounts</span><span>412,806 / 412,806 <span class="ok">✓</span></span></div>
+        <div class="row"><span>holdings</span><span>691,442 / 691,442 <span class="ok">✓</span></span></div>
+        <div class="row"><span>transactions_10yr</span><span>143,819 / 143,819 <span class="ok">✓</span></span></div>
+        <div class="row"><span>AUA total (£)</span><span>4,218,644,913.28 <span class="ok">✓</span></span></div>
+        <div class="row"><span>exceptions</span><span>14 dispositioned <span class="ok">✓</span></span></div>
+        <div class="row total"><span>1,248,067 records</span><span class="ok">0 unexplained</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="services" id="services">
+    <div class="wrap">
+      <span class="eyebrow">Four services · fixed price · defined outcome</span>
+      <h2>The quote is the price.</h2>
+      <div class="cards">
+        <div class="card">
+          <h3>Migration Readiness Assessment</h3>
+          <span class="price">from £8k fixed · ~2 weeks</span>
+          <p>Source data profiling, gap analysis, data-quality findings, risk register,
+          migration plan — and a fixed-price quote for delivery. You get the roadmap
+          whoever you build with.</p>
+          <span class="role">Start here</span>
+        </div>
+        <div class="card">
+          <h3>Migration Delivery</h3>
+          <span class="price">fixed per source system</span>
+          <p>End-to-end migration: transformation build, dry runs, cutover, and the
+          reconciliation evidence pack as standard. Priced by volume and complexity,
+          agreed before we start, held.</p>
+          <span class="role">The main event</span>
+        </div>
+        <div class="card">
+          <h3>Integration Sprint</h3>
+          <span class="price">fixed per interface</span>
+          <p>One system connected end-to-end — API or file-based — monitored,
+          documented, handed over. The new platform always needs feeding.</p>
+          <span class="role">Keep it fed</span>
+        </div>
+        <div class="card">
+          <h3>Managed Integration &amp; Data Ops</h3>
+          <span class="price">monthly retainer · SLA-backed</span>
+          <p>We monitor, maintain, and evolve the pipes we built. Your data keeps
+          moving; your team stays on the day job.</p>
+          <span class="role">Stay moved</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="how">
+    <div class="wrap">
+      <span class="eyebrow">How we work</span>
+      <h2>Speed and certainty, engineered in.</h2>
+      <ul>
+        <li><strong>Fixed price, fixed scope.</strong> The quote is the price. Change is
+        handled by change control, not invoice surprises.</li>
+        <li><strong>Weeks, not quarters.</strong> AI-accelerated profiling, mapping,
+        transform generation and testing take the grunt work off the critical path —
+        a working migration in six weeks, not a nine-month programme.</li>
+        <li><strong>Human-reviewed, always.</strong> Every generated mapping and
+        transform passes an engineer's review gate. Versioned, reproducible, auditable.</li>
+        <li><strong>Your data never trains anything.</strong> Processing locations
+        documented. Built to survive your vendor due diligence.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="who">
+    <div class="wrap">
+      <span class="eyebrow">Who it's for</span>
+      <h2>Regulated, deadlined, mid-market.</h2>
+      <div class="segs">
+        <div class="seg"><strong>Wealth &amp; investment managers</strong>
+        <span>merging acquired books across adviser back-office and platform systems.</span></div>
+        <div class="seg"><strong>Specialist lenders &amp; building societies</strong>
+        <span>re-platforming the core without losing a decade of loan history.</span></div>
+        <div class="seg"><strong>Insurance MGAs</strong>
+        <span>consolidating policy admin systems after acquisitions and capacity changes.</span></div>
+      </div>
+      <p class="kicker">If you have a cutover date and a regulator, you're our client.</p>
+    </div>
+  </section>
+
+  <section class="contact" id="contact">
+    <div class="wrap">
+      <span class="eyebrow">Contact</span>
+      <h2>Got a cutover date?</h2>
+      <p>Tell us the source system, the target, and the deadline. We'll tell you within
+      48 hours whether we can hit it, and what the Assessment will cost.</p>
+      <p class="email"><a href="mailto:freddie@godwit.uk">freddie@godwit.uk</a></p>
+      <a class="btn btn-primary" href="mailto:freddie@godwit.uk?subject=Migration%20Readiness%20Assessment">Book a Migration Readiness Assessment</a>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>Godwit Data — fixed-price data migration for financial services.</span>
+    <span>A trading division of FBL Consulting Ltd · Registered in England &amp; Wales</span>
+  </div>
+</footer>
+
+</body>
+</html>
