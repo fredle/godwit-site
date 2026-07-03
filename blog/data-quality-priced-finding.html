@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bad data quality is a finding, not a surprise — Field Notes — Godwit Data</title>
+<meta name="description" content="Why we assess before we quote, and why that protects you as much as us.">
+<link rel="stylesheet" href="../fonts.css">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<style>
+  :root { --bg:#EEF1EC; --fg:#14231F; --muted:#51655F; --line:#D5DBD3; --card:#F6F8F4; --accent:#A64B2A; --accent-contrast:#FBF9F6; }
+  @media (prefers-color-scheme: dark) { :root { --bg:#101B18; --fg:#E8EDE7; --muted:#9FB0A8; --line:#26362F; --card:#16241F; --accent:#D07A50; --accent-contrast:#14231F; } }
+  :root[data-theme="dark"] { --bg:#101B18; --fg:#E8EDE7; --muted:#9FB0A8; --line:#26362F; --card:#16241F; --accent:#D07A50; --accent-contrast:#14231F; }
+  :root[data-theme="light"] { --bg:#EEF1EC; --fg:#14231F; --muted:#51655F; --line:#D5DBD3; --card:#F6F8F4; --accent:#A64B2A; --accent-contrast:#FBF9F6; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--fg); font-family:"IBM Plex Sans",system-ui,sans-serif; font-size:16.5px; line-height:1.68; -webkit-font-smoothing:antialiased; }
+  .wrap { max-width:1060px; margin:0 auto; padding:0 24px; }
+  h1,h2 { font-family:"Newsreader",Georgia,serif; line-height:1.14; text-wrap:balance; }
+  a { color:inherit; }
+  .eyebrow { font-family:"IBM Plex Mono",monospace; font-size:12px; letter-spacing:.15em; text-transform:uppercase; color:var(--accent); display:block; margin-bottom:14px; }
+  header { padding:24px 0; }
+  header .wrap { display:flex; align-items:center; justify-content:space-between; gap:14px 24px; flex-wrap:wrap; }
+  .lockup { display:flex; align-items:center; gap:12px; text-decoration:none; }
+  .lockup svg { width:38px; height:38px; }
+  .word { font-family:"Newsreader",Georgia,serif; font-size:21px; font-weight:600; white-space:nowrap; }
+  .word span { font-weight:500; color:var(--muted); }
+  nav { display:flex; gap:24px; align-items:center; }
+  nav a { text-decoration:none; font-size:14.5px; font-weight:500; color:var(--muted); }
+  nav a:hover { color:var(--fg); }
+  .btn { display:inline-block; padding:11px 20px; border-radius:4px; font-weight:600; font-size:14.5px; text-decoration:none; background:var(--accent); color:var(--accent-contrast) !important; }
+  .btn:hover { filter:brightness(1.08); }
+  a:focus-visible { outline:2px solid var(--accent); outline-offset:3px; }
+  @media (max-width:680px) { nav a:not(.btn) { display:none; } }
+  /* index */
+  .idx-head { padding:48px 0 40px; border-bottom:1px solid var(--line); margin-bottom:36px; }
+  .idx-head h1 { font-size:clamp(34px,5vw,52px); font-weight:600; margin:0 0 16px; max-width:22ch; }
+  .stand { color:var(--muted); font-size:18.5px; max-width:58ch; margin:0; }
+  .cards { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:14px; padding-bottom:80px; }
+  .pcard { background:var(--card); border:1px solid var(--line); border-radius:8px; padding:24px 22px; text-decoration:none; display:flex; flex-direction:column; gap:9px; }
+  .pcard:hover { border-color:var(--accent); }
+  .pcard .meta { font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--accent); }
+  .pcard h2 { font-size:21.5px; font-weight:600; margin:0; }
+  .pcard p { color:var(--muted); font-size:14.5px; margin:0; }
+  /* article */
+  .article { max-width:740px; padding-top:40px; }
+  .article h1 { font-size:clamp(32px,5vw,46px); font-weight:600; margin:0 0 18px; }
+  .article .stand { font-size:19.5px; margin-bottom:34px; font-family:"Newsreader",Georgia,serif; font-style:italic; }
+  .article h2 { font-size:25px; font-weight:600; margin:38px 0 10px; }
+  .article p { max-width:66ch; }
+  .article strong { font-weight:600; }
+  .cta { border:1px solid var(--line); background:var(--card); border-radius:8px; padding:24px; margin:48px 0 24px; }
+  .cta p { margin:0 0 14px; }
+  .backlink { padding-bottom:60px; }
+  .backlink a { font-family:"IBM Plex Mono",monospace; font-size:13px; text-decoration:none; color:var(--muted); }
+  footer { padding:30px 0 44px; border-top:1px solid var(--line); font-size:13px; color:var(--muted); }
+  footer .wrap { display:flex; justify-content:space-between; gap:10px 28px; flex-wrap:wrap; }
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <a class="lockup" href="../">
+      <svg viewBox="0 0 64 64" fill="none" aria-hidden="true"><circle cx="7" cy="52" r="2.4" fill="currentColor"/><path d="M12 50.5 Q26 47 40 38.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-dasharray="0.1 6.5" fill="none"/><path d="M18 39 C26 34 33 30.8 37.5 29.9 L55 24.2 L38 31.5 C32 33.4 25 36.6 18 39 Z" fill="currentColor"/><path d="M33 31.4 C28 24 21 18.5 13 16.5 C17 23 24 29.5 29 32.6 Z" fill="currentColor"/></svg>
+      <span class="word">Godwit <span>Data</span></span>
+    </a>
+    <nav><a href="./">Field Notes</a><a href="../#services">Services</a><a class="btn" href="mailto:freddie@godwit.uk?subject=Migration%20Readiness%20Assessment">Book an Assessment</a></nav>
+  </div>
+</header>
+<main class="wrap article">
+  <span class="eyebrow">Method · 4 min read</span>
+  <h1>Bad data quality is a finding, not a surprise</h1>
+  <p class="stand">Why we assess before we quote, and why that protects you as much as us.</p>
+  
+<p>The traditional migration horror story has a fixed plot: the price was
+agreed, the work began, the data turned out to be worse than anyone admitted,
+and the project spent months in change-control trench warfare while the
+relationship curdled.</p>
+<p>The plot hole is at the start: the price was agreed <em>before anyone had
+profiled the data</em>. Nobody would price a house renovation without a
+survey. Migration suppliers price data moves without one constantly, then
+act surprised on both sides.</p>
+<h2>Assessment first, always</h2>
+<p>Our first engagement is always a readiness assessment: two weeks, fixed
+fee, in which we profile every source system — nulls, duplicates, orphaned
+records, referential breaks, format drift, the works. Out comes a data
+quality findings report, a risk register, a migration plan, and a fixed
+delivery quote we're prepared to sign.</p>
+<h2>Why this protects the buyer</h2>
+<p>Data quality problems found in an assessment are <em>priced findings</em>:
+you decide, with numbers in front of you, what gets remediated, what gets
+transformed around, what gets accepted. Problems found mid-migration are
+leverage — someone else's leverage, over you, on a deadline. The assessment
+also makes you a better buyer even if you never hire us for delivery: the
+roadmap is yours to keep, and any competent integrator can execute against
+it. We're relaxed about that. The conversion rate speaks for itself.</p>
+
+  <div class="cta">
+    <p><strong>Got a cutover date?</strong> Tell us the source system, the target, and the
+    deadline — we'll tell you within 48 hours whether we can hit it and what the
+    Assessment will cost.</p>
+    <a class="btn" href="mailto:freddie@godwit.uk?subject=Migration%20Readiness%20Assessment">freddie@godwit.uk</a>
+  </div>
+  <p class="backlink"><a href="./">← All field notes</a></p>
+</main>
+<footer><div class="wrap"><span>Godwit Data — fixed-price data migration for financial services.</span><span>A trading division of FBL Consulting Ltd</span></div></footer>
+</body>
+</html>
